@@ -5,7 +5,7 @@
 #include <math.h>
 #define ISIZE 1000
 #define JSIZE 1000
-#define serial
+// #define serial
 #define parallel
 #define T 0.012
 
@@ -96,7 +96,6 @@ MPI_Comm_rank(MPI_COMM_WORLD, &rank);
             }
             for (j = 0; j < JSIZE - 3; j ++){
                 a[i][j] = sin(4*a[i-8][j+3]);
-                //printf("rank:%d; i,j: %d,%d calc %f\n",rank, i, j, a[i][j]);
             }
             if ((i + 8 < ISIZE) && (size > 8)){
                 int dst = 0;
@@ -121,7 +120,6 @@ if (rank != 0){
     for(int i = 8 + rank; i < ISIZE; i ++){
         if ((i - 8) % period % size == rank){
             MPI_Send(&a[i], JSIZE - 3, MPI_DOUBLE, 0, i, MPI_COMM_WORLD);
-            // printf("FINAL rank %d: string %d sent\n", rank, i);
         }
     }
 }
@@ -129,15 +127,13 @@ if (rank != 0){
 if (rank == 0){  
         for(int i = 9; i < ISIZE; i ++){
                 if ((i - 8) % period % size != rank){
-                    // printf("FINAL wait i %d\n", i);
                     MPI_Recv(&a[i], JSIZE - 3, MPI_DOUBLE, (i - 8) % period  % size, i, MPI_COMM_WORLD, &status);
-                    // printf("FINAL recv i %d from %d\n", i, (i - 8) % period  % size);
                 }
         }
         time_end = MPI_Wtime();
         printf("%f",(time_end - time_start));
 
-        ff = fopen("result_test.txt","w");
+        ff = fopen("mpi.txt","w");
         for(i= 0; i < ISIZE; i++){
             for (j= 0; j < JSIZE; j++){
                 fprintf(ff,"%f ",a[i][j]);
