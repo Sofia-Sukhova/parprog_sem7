@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <omp.h>
 #include <time.h>
 #include <math.h>
 #define ISIZE 1000
@@ -39,7 +38,7 @@ for (i = 0; i<ISIZE - 1; i++){
 time_end = (double) clock();
 printf("%f\n", (time_end - time_start)/CLOCKS_PER_SEC);
 
-ff = fopen("result.txt","w");
+ff = fopen("result_omp.txt","w");
 for(i = 0; i < ISIZE; i++){
     for (j= 0; j < JSIZE; j++){
         fprintf(ff,"%f ",a[i][j]);

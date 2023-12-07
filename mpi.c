@@ -5,7 +5,7 @@
 #include <math.h>
 #define ISIZE 1000
 #define JSIZE 1000
-// #define serial
+#define serial
 #define parallel
 #define T 0.012
 
@@ -39,7 +39,7 @@ for (i=8; i<ISIZE; i++){
 time_end = (double) clock();
 printf("time serial: %f\n", (time_end - time_start)/CLOCKS_PER_SEC);
 
-ff = fopen("result.txt","w");
+ff = fopen("result_mpi.txt","w");
 for(i= 0; i < ISIZE; i++){
     for (j= 0; j < JSIZE; j++){
         fprintf(ff,"%f ",a[i][j]);
